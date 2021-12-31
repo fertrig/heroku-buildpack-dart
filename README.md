@@ -98,6 +98,10 @@ another command: for instance `pub build --mode=debug` or
 $> heroku config:set DART_BUILD_CMD="/app/dart-sdk/bin/dart build.dart"
 ```
 
+### Skip webdev
+By default, this package activate webdev. It assumes you want to run a dart web server. To 
+skip webdev activation, set the environment variable SKIP_WEBDEV to any value.
+
 ## Example 
 
 See `test-app` directory for the world simplest Dart web app running on

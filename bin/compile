@@ -44,21 +44,29 @@ build_pubspec() {
 
   #start pub from the /app folder to have correct symlink paths
   pub get  
-  
-  dart pub global activate webdev
-  if [ -d "web" ]
+
+  if [ -z "$SKIP_WEBDEV" ]
   then
-    message "*** Running webdev build"
-    if [[ -z "$DART_BUILD_CMD" ]]
+    message "SKIP_WEBDEV is not set, activating webdev"
+
+    dart pub global activate webdev
+    if [ -d "web" ]
     then
-      message 'Building with "webdev build"'
-      webdev build
+      message "*** Running webdev build"
+      if [[ -z "$DART_BUILD_CMD" ]]
+      then
+        message 'Building with "webdev build"'
+        webdev build
+      else
+        message "Building with \"$DART_BUILD_CMD\""
+        eval $DART_BUILD_CMD
+      fi
     else
-      message "Building with \"$DART_BUILD_CMD\""
-      eval $DART_BUILD_CMD
+      message '*** Skipping pub build because "web" folder not found'
     fi
+
   else
-    message '*** Skipping pub build because "web" folder not found'
+    message "SKIP_WEBDEV is set, skipping webdev activation"
   fi
 }
 
